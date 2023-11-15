@@ -38,9 +38,10 @@ const (
 	endpointDiscoveryAuto     = `auto`
 
 	// Static Credentials group
-	accessKeyIDKey  = `aws_access_key_id`     // group required
-	secretAccessKey = `aws_secret_access_key` // group required
-	sessionTokenKey = `aws_session_token`     // optional
+	accessKeyIDKey     = `aws_access_key_id`     // group required
+	secretAccessKey    = `aws_secret_access_key` // group required
+	sessionTokenKey    = `aws_session_token`     // optional
+	credentialScopeKey = `aws_credential_scope`  // optional
 
 	// Assume Role Credentials group
 	roleArnKey             = `role_arn`          // group required
@@ -1089,6 +1090,7 @@ func (c *SharedConfig) setFromIniSection(profile string, section ini.Section) er
 		AccessKeyID:     section.String(accessKeyIDKey),
 		SecretAccessKey: section.String(secretAccessKey),
 		SessionToken:    section.String(sessionTokenKey),
+		CredentialScope: section.String(credentialScopeKey),
 		Source:          fmt.Sprintf("SharedConfigCredentials: %s", section.SourceFile[accessKeyIDKey]),
 	}
 

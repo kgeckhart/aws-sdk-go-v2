@@ -13,7 +13,8 @@ import (
 )
 
 type mockAssumeRole struct {
-	TestInput func(*sts.AssumeRoleInput)
+	TestInput       func(*sts.AssumeRoleInput)
+	CredentialScope string
 }
 
 func (s *mockAssumeRole) AssumeRole(ctx context.Context, params *sts.AssumeRoleInput, optFns ...func(*sts.Options)) (*sts.AssumeRoleOutput, error) {
@@ -28,7 +29,13 @@ func (s *mockAssumeRole) AssumeRole(ctx context.Context, params *sts.AssumeRoleI
 			AccessKeyId:     params.RoleArn,
 			SecretAccessKey: aws.String("assumedSecretAccessKey"),
 			SessionToken:    aws.String("assumedSessionToken"),
-			Expiration:      &expiry,
+			CredentialScope: func() *string {
+				if len(s.CredentialScope) > 0 {
+					return aws.String(s.CredentialScope)
+				}
+				return nil
+			}(),
+			Expiration: &expiry,
 		},
 	}, nil
 }
@@ -53,6 +60,34 @@ func TestAssumeRoleProvider(t *testing.T) {
 	}
 	if e, a := "assumedSessionToken", creds.SessionToken; e != a {
 		t.Errorf("Expect session token to match")
+	}
+	if e, a := "", creds.CredentialScope; e != a {
+		t.Errorf("Expect no credential scope")
+	}
+}
+
+func TestAssumeRoleProvider_WithCredentialScope(t *testing.T) {
+	stub := &mockAssumeRole{
+		CredentialScope: "assumedCredentialScope",
+	}
+	p := stscreds.NewAssumeRoleProvider(stub, roleARN)
+
+	creds, err := p.Retrieve(context.Background())
+	if err != nil {
+		t.Fatalf("Expect no error, %v", err)
+	}
+
+	if e, a := roleARN, creds.AccessKeyID; e != a {
+		t.Errorf("Expect access key ID to be reflected role ARN")
+	}
+	if e, a := "assumedSecretAccessKey", creds.SecretAccessKey; e != a {
+		t.Errorf("Expect secret access key to match")
+	}
+	if e, a := "assumedSessionToken", creds.SessionToken; e != a {
+		t.Errorf("Expect session token to match")
+	}
+	if e, a := "assumedCredentialScope", creds.CredentialScope; e != a {
+		t.Errorf("Expect credential scope to match")
 	}
 }
 

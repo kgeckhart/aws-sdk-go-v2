@@ -312,6 +312,7 @@ func (p *AssumeRoleProvider) Retrieve(ctx context.Context) (aws.Credentials, err
 		AccessKeyID:     *resp.Credentials.AccessKeyId,
 		SecretAccessKey: *resp.Credentials.SecretAccessKey,
 		SessionToken:    *resp.Credentials.SessionToken,
+		CredentialScope: aws.ToString(resp.Credentials.CredentialScope),
 		Source:          ProviderName,
 
 		CanExpire: true,

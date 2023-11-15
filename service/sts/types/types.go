@@ -53,6 +53,10 @@ type Credentials struct {
 	// This member is required.
 	SessionToken *string
 
+	// The token that users must pass to the service API to use the temporary
+	// credentials.
+	CredentialScope *string
+
 	noSmithyDocumentSerde
 }
 

@@ -81,6 +81,9 @@ type Credentials struct {
 	// AWS Session Token
 	SessionToken string
 
+	// AWS Credential Scope
+	CredentialScope string
+
 	// Source of the credentials
 	Source string
 

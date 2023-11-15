@@ -464,6 +464,12 @@
                         "smithy.api#documentation": "<p>The token used for temporary credentials. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html\">Using Temporary Security Credentials to Request Access to AWS Resources</a> in the\n        <i>AWS IAM User Guide</i>.</p>"
                     }
                 },
+                "credentialScope": {
+                    "target": "com.amazonaws.sso#SessionTokenType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token used for temporary credentials. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html\">Using Temporary Security Credentials to Request Access to AWS Resources</a> in the\n        <i>AWS IAM User Guide</i>.</p>"
+                    }
+                },
                 "expiration": {
                     "target": "com.amazonaws.sso#ExpirationTimestampType",
                     "traits": {

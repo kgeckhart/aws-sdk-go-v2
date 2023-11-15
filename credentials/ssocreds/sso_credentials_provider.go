@@ -126,6 +126,7 @@ func (p *Provider) Retrieve(ctx context.Context) (aws.Credentials, error) {
 		AccessKeyID:     aws.ToString(output.RoleCredentials.AccessKeyId),
 		SecretAccessKey: aws.ToString(output.RoleCredentials.SecretAccessKey),
 		SessionToken:    aws.ToString(output.RoleCredentials.SessionToken),
+		CredentialScope: aws.ToString(output.RoleCredentials.CredentialScope),
 		CanExpire:       true,
 		Expires:         time.Unix(0, output.RoleCredentials.Expiration*int64(time.Millisecond)).UTC(),
 		Source:          ProviderName,

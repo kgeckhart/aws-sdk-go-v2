@@ -30,6 +30,11 @@ type RoleCredentials struct {
 	// in the AWS IAM User Guide.
 	AccessKeyId *string
 
+	// The token used for temporary credentials. For more information, see Using
+	// Temporary Security Credentials to Request Access to AWS Resources (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)
+	// in the AWS IAM User Guide.
+	CredentialScope *string
+
 	// The date on which temporary security credentials expire.
 	Expiration int64
 

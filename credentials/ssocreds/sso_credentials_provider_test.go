@@ -112,6 +112,37 @@ func TestProvider(t *testing.T) {
 				Source:          ProviderName,
 			},
 		},
+		"valid with scope": {
+			Client: mockClient{
+				ExpectedAccountID:   "012345678901",
+				ExpectedRoleName:    "TestRole",
+				ExpectedAccessToken: "dGhpcyBpcyBub3QgYSByZWFsIHZhbHVl",
+				Response: func(mock mockClient) (*sso.GetRoleCredentialsOutput, error) {
+					return &sso.GetRoleCredentialsOutput{
+						RoleCredentials: &types.RoleCredentials{
+							AccessKeyId:     aws.String("AccessKey"),
+							SecretAccessKey: aws.String("SecretKey"),
+							SessionToken:    aws.String("SessionToken"),
+							CredentialScope: aws.String("CredentialScope"),
+							Expiration:      1611177743123,
+						},
+					}, nil
+				},
+			},
+			AccountID: "012345678901",
+			Region:    "us-west-2",
+			RoleName:  "TestRole",
+			StartURL:  "https://valid-required-only",
+			ExpectedCredentials: aws.Credentials{
+				AccessKeyID:     "AccessKey",
+				SecretAccessKey: "SecretKey",
+				SessionToken:    "SessionToken",
+				CredentialScope: "CredentialScope",
+				CanExpire:       true,
+				Expires:         time.Date(2021, 01, 20, 21, 22, 23, 0.123e9, time.UTC),
+				Source:          ProviderName,
+			},
+		},
 		"custom cached token file": {
 			Client: mockClient{
 				ExpectedAccountID:   "012345678901",

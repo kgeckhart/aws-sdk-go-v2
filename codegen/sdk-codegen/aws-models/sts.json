@@ -2820,6 +2820,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "CredentialScope": {
+                    "target": "com.amazonaws.sts#tokenType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token that users must pass to the service API to use the temporary\n         credentials.</p>"
+                    }
+                },
                 "Expiration": {
                     "target": "com.amazonaws.sts#dateType",
                     "traits": {

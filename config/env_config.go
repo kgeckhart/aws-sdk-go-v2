@@ -28,6 +28,8 @@ const (
 
 	awsSessionTokenEnvVar = "AWS_SESSION_TOKEN"
 
+	awsCredentialScopeEnv = "AWS_CREDENTIAL_SCOPE"
+
 	awsContainerCredentialsEndpointEnvVar     = "AWS_CONTAINER_CREDENTIALS_FULL_URI"
 	awsContainerCredentialsRelativePathEnvVar = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
 	awsContainerPProviderAuthorizationEnvVar  = "AWS_CONTAINER_AUTHORIZATION_TOKEN"
@@ -288,6 +290,7 @@ func NewEnvConfig() (EnvConfig, error) {
 	setStringFromEnvVal(&creds.SecretAccessKey, credSecretEnvKeys)
 	if creds.HasKeys() {
 		creds.SessionToken = os.Getenv(awsSessionTokenEnvVar)
+		creds.CredentialScope = os.Getenv(awsCredentialScopeEnv)
 		cfg.Credentials = creds
 	}
 

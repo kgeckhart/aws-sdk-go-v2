@@ -772,6 +772,17 @@ func TestLoadSharedConfigFromSection(t *testing.T) {
 				},
 			},
 		},
+		"profile with complete creds and scope": {
+			Profile: "profile complete_creds_with_scope",
+			Expected: SharedConfig{
+				Credentials: aws.Credentials{
+					AccessKeyID:     "complete_creds_with_scope_akid",
+					SecretAccessKey: "complete_creds_with_scope_secret",
+					CredentialScope: "complete_creds_with_scope_scope",
+					Source:          fmt.Sprintf("SharedConfigCredentials: %s", filename),
+				},
+			},
+		},
 		"complete profile": {
 			Profile: "profile full_profile",
 			Expected: SharedConfig{

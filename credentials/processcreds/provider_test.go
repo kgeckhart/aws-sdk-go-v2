@@ -14,6 +14,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 func TestProviderBadCommand(t *testing.T) {
@@ -304,6 +306,32 @@ func TestProviderAltConstruct(t *testing.T) {
 	}
 	if v.CanExpire != false {
 		t.Errorf("expected %v, got %v", "static credentials/not expired", "expired")
+	}
+}
+
+func TestProviderCredentialScope(t *testing.T) {
+	cmdBuilder := DefaultNewCommandBuilder{Args: []string{
+		fmt.Sprintf("%s %s", getOSCat(),
+			filepath.Join("testdata", "complete.json"),
+		),
+	}}
+
+	provider := NewProviderCommand(cmdBuilder)
+	creds, err := provider.Retrieve(context.Background())
+	if err != nil {
+		t.Errorf("expected %v, got %v", "no error", err)
+	}
+
+	expected := aws.Credentials{
+		AccessKeyID:     "complete_accesskey",
+		SecretAccessKey: "complete_secretkey",
+		SessionToken:    "complete_sessiontoken",
+		CredentialScope: "complete_credentialscope",
+		Source:          ProviderName,
+	}
+
+	if expected != creds {
+		t.Errorf("expected %v, got %v", expected, creds)
 	}
 }
 

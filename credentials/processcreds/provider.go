@@ -165,6 +165,9 @@ type CredentialProcessResponse struct {
 	// The token that users must pass to the service API to use the temporary credentials.
 	SessionToken string
 
+	// The credential scope
+	CredentialScope string
+
 	// The date on which the current credentials expire.
 	Expiration *time.Time
 }
@@ -208,6 +211,7 @@ func (p *Provider) Retrieve(ctx context.Context) (aws.Credentials, error) {
 		AccessKeyID:     resp.AccessKeyID,
 		SecretAccessKey: resp.SecretAccessKey,
 		SessionToken:    resp.SessionToken,
+		CredentialScope: resp.CredentialScope,
 	}
 
 	// Handle expiration

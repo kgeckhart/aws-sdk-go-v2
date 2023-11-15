@@ -947,6 +947,15 @@ func awsRestjson1_deserializeDocumentRoleCredentials(v **types.RoleCredentials, 
 				sv.AccessKeyId = ptr.String(jtv)
 			}
 
+		case "credentialScope":
+			if value != nil {
+				jtv, ok := value.(string)
+				if !ok {
+					return fmt.Errorf("expected SessionTokenType to be of type string, got %T instead", value)
+				}
+				sv.CredentialScope = ptr.String(jtv)
+			}
+
 		case "expiration":
 			if value != nil {
 				jtv, ok := value.(json.Number)

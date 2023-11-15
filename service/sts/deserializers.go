@@ -1377,6 +1377,19 @@ func awsAwsquery_deserializeDocumentCredentials(v **types.Credentials, decoder s
 				sv.AccessKeyId = ptr.String(xtv)
 			}
 
+		case strings.EqualFold("CredentialScope", t.Name.Local):
+			val, err := decoder.Value()
+			if err != nil {
+				return err
+			}
+			if val == nil {
+				break
+			}
+			{
+				xtv := string(val)
+				sv.CredentialScope = ptr.String(xtv)
+			}
+
 		case strings.EqualFold("Expiration", t.Name.Local):
 			val, err := decoder.Value()
 			if err != nil {
