@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/smithy-go"
 	"github.com/aws/smithy-go/auth"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 // CredentialsAdapter adapts aws.Credentials to auth.Identity.
@@ -39,7 +40,7 @@ func (v *CredentialsProviderAdapter) GetIdentity(ctx context.Context, _ smithy.P
 
 	creds, err := v.Provider.Retrieve(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("get credentials: %v", err)
+		return nil, fmt.Errorf("get credentials: %w", err)
 	}
 
 	return &CredentialsAdapter{Credentials: creds}, nil
